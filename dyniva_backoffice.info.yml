@@ -3,7 +3,5 @@ description: 'manage config to use dyniva_admin theme"
 type: module
 core: 8.x
 dependencies:
-  - dyniva_admin
-  - menu
   - switch_page_theme
   - toolbar_menu
