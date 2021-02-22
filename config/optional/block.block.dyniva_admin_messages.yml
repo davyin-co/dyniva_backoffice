@@ -1,0 +1,22 @@
+uuid: 66bb955c-1d08-43fa-9b66-9d2aaa0a6e56
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - dyniva_admin
+_core:
+  default_config_hash: KHQIJ7Vfl25lTjzIc7qIvnuistt-Mw2O0kG4jCofmkI
+id: dyniva_admin_messages
+theme: dyniva_admin
+region: highlighted
+weight: 0
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  provider: system
+  label_display: '0'
+visibility: {  }
