@@ -1,5 +1,5 @@
 name: 'Dyniva Backoffice'
-description: 'manage config to use dyniva_admin theme"
+description: 'manage config to use dyniva_admin theme'
 type: module
 core: 8.x
 dependencies:
