@@ -6,8 +6,6 @@ dependencies:
     - system
   theme:
     - dyniva_admin
-_core:
-  default_config_hash: KHQIJ7Vfl25lTjzIc7qIvnuistt-Mw2O0kG4jCofmkI
 id: dyniva_admin_messages
 theme: dyniva_admin
 region: highlighted

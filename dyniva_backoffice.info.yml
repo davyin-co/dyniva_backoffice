@@ -1,5 +1,5 @@
-name: 'Dyniva Article'
-description: 'Provides Article content type and related configuration. Use <em>articles</em> for time-sensitive content like news, press releases or blog posts.'
+name: 'Dyniva Backoffice'
+description: 'manage config to use dyniva_admin theme"
 type: module
 core: 8.x
 dependencies:

@@ -4,8 +4,6 @@ status: true
 dependencies:
   theme:
     - dyniva_admin
-_core:
-  default_config_hash: 13GQpeITIJsp1kyPniXtWZfyFH87vb1xxJCHifL4UeE
 id: dyniva_admin_local_actions
 theme: dyniva_admin
 region: content
