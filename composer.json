@@ -1,14 +1,11 @@
 
 {
     "name": "davyin/dyniva_backoffice",
-    "description": "Dyniva Backoffice for drupal 8 +.",
+    "description": "dyniva_backoffice for drupal 8 +.",
     "type": "drupal-custom-module",
     "license": "GPL-2.0-or-later",
     "homepage": "https://github.com/davyin-co/dyniva_backoffice",
     "require": {
-        "drupal/core": "^8.8 || ^9",
-        "drupal/switch_page_theme": "^1.0",
-        "drupal/toolbar_menu": "^2.2",
-        "davyin/dyniva_admin": "1.x-dev"
+        "drupal/core": "^8.6 || ^9"
     }
 }
