@@ -7,7 +7,7 @@
     "homepage": "https://github.com/davyin-co/dyniva_backoffice",
     "require": {
         "drupal/core": "^8.6 || ^9",
-        "davyin/dyniva_admin": "2.x-dev",
+        "davyin/dyniva_admin": "1.x-dev",
         "drupal/toolbar_menu": "^2.2",
         "drupal/theme_switcher": "^1.1"
     }
