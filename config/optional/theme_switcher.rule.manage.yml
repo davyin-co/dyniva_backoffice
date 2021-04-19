@@ -1,0 +1,15 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+id: manage
+label: 'manage'
+weight: 0
+theme: dyniva_admin
+admin_theme: dyniva_admin
+visibility:
+  request_path:
+    id: request_path
+    pages: '/manage/*'
+    negate: false
