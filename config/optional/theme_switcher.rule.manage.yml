@@ -11,5 +11,5 @@ admin_theme: dyniva_admin
 visibility:
   request_path:
     id: request_path
-    pages: "/manage/*\r\n/admin/dashboard\r\n/user\r\n/user/login\r\n/user/register"
+    pages: "/manage/*\r\n/admin/dashboard\r\n/user\r\n/user/login\r\n/user/register\r\n/user/password"
     negate: false
