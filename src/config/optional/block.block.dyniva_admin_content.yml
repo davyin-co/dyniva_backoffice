@@ -1,3 +1,4 @@
+uuid: 8c563904-847e-4f51-84f7-81dba106c5ac
 langcode: en
 status: true
 dependencies:
@@ -5,6 +6,8 @@ dependencies:
     - system
   theme:
     - dyniva_admin
+_core:
+  default_config_hash: 3p44U6lOWDPSxTTV-onKphWrVw1Ebw8dwARFpHengHE
 id: dyniva_admin_content
 theme: dyniva_admin
 region: content

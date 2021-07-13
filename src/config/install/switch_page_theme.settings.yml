@@ -1,0 +1,13 @@
+spt_table:
+  -
+    status: '1'
+    pages: '/manage/*'
+    theme: dyniva_admin
+    roles:
+      authenticated: authenticated
+      administrator: administrator
+      anonymous: 0
+    language:
+      en: en
+    weight: '-10'
+    remove: Remove

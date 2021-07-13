@@ -1,4 +1,4 @@
-uuid: 7e0ab37c-0f2d-407d-af9d-6ad95d58b5c8
+uuid: 7f7cd74a-802f-46ae-8d6e-16195052d84a
 langcode: en
 status: true
 dependencies:
@@ -8,18 +8,20 @@ dependencies:
     - system
   theme:
     - dyniva_admin
-id: manage
+id: manage_2
 theme: dyniva_admin
-region: sidebar_first
+region: navigation_collapsible
 weight: 0
 provider: null
 plugin: 'system_menu_block:manage'
 settings:
   id: 'system_menu_block:manage'
-  label: manage
+  label: Manage
   provider: system
   label_display: '0'
-  level: 2
-  depth: 0
+  level: 1
+  depth: 1
   expand_all_items: false
+  only_translated_labels: 0
+  only_translated_content: 0
 visibility: {  }

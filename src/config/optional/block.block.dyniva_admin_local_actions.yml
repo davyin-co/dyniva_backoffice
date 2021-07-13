@@ -1,10 +1,11 @@
+uuid: ed849b03-49ee-44c3-83e1-1aceb5e0f360
 langcode: en
 status: true
 dependencies:
-  module:
-    - system
   theme:
     - dyniva_admin
+_core:
+  default_config_hash: PsZ-xYcSufcXZBCDfCIYPBZ-kljBJhLDQHVfYBcqOUc
 id: dyniva_admin_local_actions
 theme: dyniva_admin
 region: content
@@ -16,8 +17,4 @@ settings:
   label: 'Primary admin actions'
   provider: core
   label_display: '0'
-visibility:
-  request_path:
-    id: request_path
-    pages: /manage/media-grid
-    negate: true
+visibility: {  }

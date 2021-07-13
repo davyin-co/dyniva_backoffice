@@ -1,0 +1,18 @@
+uuid: 1aed39e3-5986-4cd2-b379-4dd47890e489
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+_core:
+  default_config_hash: V4Lfw9XklLwlIvCOAByuEyCmExT23PyG00CQuMxG6Zk
+id: manage
+label: Manage
+weight: 0
+theme: dyniva_admin
+admin_theme: dyniva_admin
+visibility:
+  request_path:
+    id: request_path
+    pages: "/node/*/edit\r\n/node/*/delete\r\n/node/*/revisions\r\n/manage\r\n/manage/*\r\n/admin/dashboard\r\n/admin/content/*\r\n/admin/structure/menu/*\r\n/admin/structure/webform/*\r\n/admin/reports/audit-trail*\r\n/user\r\n/user/login\r\n/user/register\r\n/user/password\r\n/node/add/*\r\n/user/*/moderation/dashboard\r\n"
+    negate: false

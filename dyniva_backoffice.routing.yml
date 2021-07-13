@@ -1,0 +1,49 @@
+manage.admin:
+  path: '/manage'
+  defaults:
+    _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
+    _title: 'Manage'
+  requirements:
+    _permission: 'access administration pages'
+manage.dashboard:
+  path: '/manage/dashboard'
+  defaults:
+    _controller: '\Drupal\dyniva_backoffice\Controller\ManageDashboard::Overview'
+    _title: 'Media'
+  requirements:
+    _permission: 'access administration pages'
+manage.content:
+  path: '/manage/content'
+  defaults:
+    _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
+    _title: 'Content'
+  requirements:
+    _permission: 'access administration pages'
+manage.media:
+  path: '/manage/media'
+  defaults:
+    _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
+    _title: 'Media'
+  requirements:
+    _permission: 'access administration pages'
+manage.menu:
+  path: '/manage/menu'
+  defaults:
+    _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
+    _title: 'Menu'
+  requirements:
+    _permission: 'access administration pages'
+manage.site:
+  path: '/manage/site'
+  defaults:
+    _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
+    _title: 'Site'
+  requirements:
+    _permission: 'access administration pages'
+manage.media_grid:
+  path: '/manage/media-grid'
+  defaults:
+    _controller: '\Drupal\dyniva_backoffice\Controller\ManageMedia::Grid'
+    _title: 'Media'
+  requirements:
+    _permission: 'access administration pages'
