@@ -1,8 +1,0 @@
-uuid: 88f10dc2-bda4-4c7e-aed1-c088fe7e8991
-langcode: en
-status: true
-dependencies: {  }
-id: manage
-label: manage
-description: ''
-locked: false

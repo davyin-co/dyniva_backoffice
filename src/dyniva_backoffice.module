@@ -1,4 +1,0 @@
-<?php
-function dyniva_backoffice_preinstall($module) {
-  \Drupal::service('theme_installer')->install(['dyniva_admin']);
-}
