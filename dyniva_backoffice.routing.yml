@@ -4,7 +4,7 @@ manage.admin:
     _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
     _title: 'Manage'
   requirements:
-    _permission: 'access administration pages'
+    _permission: 'access manage pages'
 
 manage.content:
   path: '/manage/content'
@@ -12,14 +12,14 @@ manage.content:
     _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
     _title: 'Content'
   requirements:
-    _permission: 'access administration pages'
+    _permission: 'access manage pages'
 manage.dashboard:
   path: '/manage/dashboard'
   defaults:
     _controller: '\Drupal\dyniva_backoffice\Controller\ManageDashboard::Overview'
     _title: 'Media'
   requirements:
-    _permission: 'access administration pages'
+    _permission: 'access manage pages'
 
 manage.media:
   path: '/manage/media'
@@ -27,14 +27,14 @@ manage.media:
     _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
     _title: 'Media'
   requirements:
-    _permission: 'access administration pages'
+    _permission: 'access manage pages'
 manage.media_grid:
   path: '/manage/media-grid'
   defaults:
     _controller: '\Drupal\dyniva_backoffice\Controller\ManageMedia::Grid'
     _title: 'Media'
   requirements:
-    _permission: 'access administration pages'
+    _permission: 'access manage pages'
 
 manage.menu:
   path: '/manage/menu'
@@ -42,7 +42,7 @@ manage.menu:
     _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
     _title: 'Menu'
   requirements:
-    _permission: 'access administration pages'
+    _permission: 'access manage pages'
 
 manage.site:
   path: '/manage/site'
@@ -50,7 +50,7 @@ manage.site:
     _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
     _title: 'Site'
   requirements:
-    _permission: 'access administration pages'
+    _permission: 'access manage pages'
 manage.site_information:
   path: '/manage/site/information'
   defaults:
