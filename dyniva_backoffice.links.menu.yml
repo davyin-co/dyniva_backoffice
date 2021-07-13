@@ -2,15 +2,16 @@ manage.admin:
   title: Manage
   description: 'Manage.'
   route_name: manage.admin
-  weight: -10
+  weight: -1
   menu_name: manage
 manage.system_admin:
   title: Admin
   description: 'Admin.'
   route_name: system.admin
-  weight: -10
+  weight: 0
   menu_name: manage
 
+## dashboard
 manage.dashboard:
   title: Dashboard
   description: 'Content Dashboard'
@@ -18,11 +19,13 @@ manage.dashboard:
   weight: -100
   parent: manage.admin
   menu_name: manage
+
 ## Content
 manage.admin_content:
   title: Content
   description: 'Find and manage content.'
   route_name: manage.content
+  expanded: true
   weight: -90
   parent: manage.admin
   menu_name: manage
@@ -44,10 +47,45 @@ manage.media:
   weight: -70
   parent: manage.admin
   menu_name: manage
+
+## site
 manage.site:
   title: Site Config
   description: 'Config.'
   route_name: manage.site
+  expanded: true
   weight: -60
   parent: manage.admin
   menu_name: manage
+manage.site_information:
+  title: Site Config
+  description: 'Site Config.'
+  route_name: manage.site_information
+  weight: -60
+  parent: manage.site
+  menu_name: manage
+manage.site_translation:
+  title: Translate
+  description: 'Translate.'
+  route_name: manage.site_translation
+  weight: -60
+  parent: manage.site
+  menu_name: manage
+manage.menu_main:
+  title: Main Menu
+  description: 'Main Menu Config.'
+  route_name: entity.menu.edit_form
+  weight: -60
+  parent: manage.site
+  menu_name: manage
+  route_parameters:
+    menu: main
+manage.menu_manage:
+  title: Manage Menu
+  description: 'Manage Menu Config.'
+  route_name: entity.menu.edit_form
+  weight: -60
+  parent: manage.site
+  menu_name: manage
+  route_parameters:
+    menu: manage

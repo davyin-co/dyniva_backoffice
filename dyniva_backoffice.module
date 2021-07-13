@@ -1,4 +1,68 @@
 <?php
+
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\views\Entity\View;
+
+/**
+ * Implements hook_preinstall().
+ */
 function dyniva_backoffice_preinstall($module) {
   \Drupal::service('theme_installer')->install(['dyniva_admin']);
+}
+
+/**
+ * Implements hook_menu_links_discovered_alter().
+ */
+function dyniva_backoffice_menu_links_discovered_alter(&$links) {
+  // Conditionally add an additional link with a title that's not translated.
+  if (\Drupal::moduleHandler()->moduleExists('dyniva_layout_builder')) {
+    $links['manage.landing_page'] = [
+      'title' => new TranslatableMarkup('Landing Pages'),
+      'description' => new TranslatableMarkup('Landing Pages Manage'),
+      'route_name' => 'view.manage_landing_page.list',
+      'parent' => 'manage.admin_content',
+      'menu_name' => 'manage',
+      'weight' => -100,
+    ];
+  }
+  if (\Drupal::moduleHandler()->moduleExists('admin_audit_trail')) {
+    $links['manage.admin_audit_trail'] = [
+      'title' => new TranslatableMarkup('Audit Logs'),
+      'description' => new TranslatableMarkup('Audit Trail Manage'),
+      'route_name' => 'admin_audit_trail.report_form',
+      'parent' => 'manage.admin',
+      'menu_name' => 'manage',
+      'weight' => -71,
+    ];
+  }
+  //Get content from manage_contents views.
+  /** @var View $view */
+  $view = View::load('manage_content');
+  if ($view->id()) {
+    $display_list = $view->get('display');
+    $default = [
+      'parent' => 'manage.admin_content',
+      'menu_name' => 'manage',
+    ];
+    $seq = 1;
+    foreach ($display_list as $display) {
+      $seq++;
+      //For the disabled display, hide it.
+      if (array_key_exists('enabled', $display['display_options']) && $display['display_options']['enabled'] == FALSE) {
+        continue;
+      }
+      if ($display['display_plugin'] == 'page') {
+        $identifier = 'manage.content.' . $display['id'];
+        $description = $display['display_description'] ?? '';
+        $current = [
+          'title' => new TranslatableMarkup($display['display_title']),
+          'description' => new TranslatableMarkup($description),
+          'route_name' => 'view.manage_content.' . $display['id'],
+          'weight' => -100 + $seq,
+        ];
+        $links[$identifier] = $current + $default;
+      }
+    }
+  }
+  dpm($links);
 }
