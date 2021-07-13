@@ -4,10 +4,6 @@ status: true
 dependencies:
   config:
     - node.type.article
-    - node.type.job
-    - node.type.landing_page
-    - node.type.press_image
-    - node.type.press_release
   module:
     - node
     - user
@@ -29,7 +25,7 @@ display:
       access:
         type: perm
         options:
-          perm: 'edit any code_of_conduct content'
+          perm: 'edit any article content'
       cache:
         type: tag
         options: {  }
@@ -604,10 +600,10 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
-  code_conduct:
+  article:
     display_plugin: page
-    id: code_conduct
-    display_title: 'Code of Conduct'
+    id: article
+    display_title: 'Article'
     position: 1
     display_options:
       display_extenders: {  }
@@ -748,10 +744,8 @@ display:
           perm: 'create code_of_conduct content'
       menu:
         type: none
-        title: 'Code of Conduct'
         description: ''
         expanded: false
-        parent: 'menu_link_content:6948a058-fccb-449e-a5e3-06ac20292274'
         weight: 0
         context: '0'
         menu_name: manage
