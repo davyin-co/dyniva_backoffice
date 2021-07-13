@@ -37,8 +37,7 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
   }
   //Get content from manage_contents views.
   /** @var View $view */
-  $view = View::load('manage_content');
-  if ($view->id()) {
+  if ($view = View::load('manage_content')) {
     $display_list = $view->get('display');
     $default = [
       'parent' => 'manage.admin_content',
@@ -64,5 +63,4 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
       }
     }
   }
-  dpm($links);
 }
