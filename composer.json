@@ -17,7 +17,7 @@
         "patches": {
              "drupal/page_manager": {
                  "page_variant entity type does not exist when installing or enabling": "https://www.drupal.org/files/issues/2876880-page-varient-cache-2.patch"
-             },
+             }
         }
     }
 }
