@@ -3,7 +3,8 @@ description: 'manage config to use dyniva_admin theme'
 type: module
 core_version_requirement: ^8.8 || ^9
 dependencies:
+  - media_library
   - theme_switcher
   - toolbar_menu
   - total_control
-  - media_library
+  - views_add_button
