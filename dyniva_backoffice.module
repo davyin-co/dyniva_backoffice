@@ -16,10 +16,50 @@ function dyniva_backoffice_preinstall($module) {
 function dyniva_backoffice_menu_links_discovered_alter(&$links) {
   // Conditionally add an additional link with a title that's not translated.
   if (\Drupal::moduleHandler()->moduleExists('dyniva_layout_builder')) {
-    $links['manage.landing_page'] = [
+    $links['manage.content.landing_page'] = [
       'title' => new TranslatableMarkup('Landing Pages'),
       'description' => new TranslatableMarkup('Landing Pages Manage'),
       'route_name' => 'view.manage_landing_page.list',
+      'parent' => 'manage.admin_content',
+      'menu_name' => 'manage',
+      'weight' => -100,
+    ];
+  }
+  if (\Drupal::moduleHandler()->moduleExists('dyniva_document')) {
+    $links['manage.content.document'] = [
+      'title' => new TranslatableMarkup('Document'),
+      'description' => new TranslatableMarkup('Manage Document'),
+      'route_name' => 'view.document_overview.table',
+      'parent' => 'manage.admin_content',
+      'menu_name' => 'manage',
+      'weight' => -100,
+    ];
+  }
+  if (\Drupal::moduleHandler()->moduleExists('dyniva_job')) {
+    $links['manage.content.job'] = [
+      'title' => new TranslatableMarkup('Jobs'),
+      'description' => new TranslatableMarkup('Manage Jobs'),
+      'route_name' => 'view.jobs.page_1',
+      'parent' => 'manage.admin_content',
+      'menu_name' => 'manage',
+      'weight' => -100,
+    ];
+  }
+  if (\Drupal::moduleHandler()->moduleExists('dyniva_event')) {
+    $links['manage.content.event'] = [
+      'title' => new TranslatableMarkup('Event'),
+      'description' => new TranslatableMarkup('Manage Events'),
+      'route_name' => 'view.event.page_1',
+      'parent' => 'manage.admin_content',
+      'menu_name' => 'manage',
+      'weight' => -100,
+    ];
+  }
+  if (\Drupal::moduleHandler()->moduleExists('dyniva_staff')) {
+    $links['manage.content.staff'] = [
+      'title' => new TranslatableMarkup('Staff'),
+      'description' => new TranslatableMarkup('Manage Staff'),
+      'route_name' => 'view.staff.page_1',
       'parent' => 'manage.admin_content',
       'menu_name' => 'manage',
       'weight' => -100,
