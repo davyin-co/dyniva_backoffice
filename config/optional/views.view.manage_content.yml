@@ -456,21 +456,6 @@ display:
               edit_own_editor: '0'
               edit_menu: '0'
               administrator: '0'
-              workbench_base: '0'
-              workbench_author: '0'
-              workbench_moderator: '0'
-              workbench_publisher: '0'
-              workbench_access_supplier_en: '0'
-              workbench_access_supplier_cn: '0'
-              workbench_access_german: '0'
-              workbench_access_chinese: '0'
-              workbench_access_english: '0'
-              workbench_access_page_de: '0'
-              workbench_access_page_en: '0'
-              workbench_access_page_cn: '0'
-              workbench_access_press_de: '0'
-              workbench_access_press_en: '0'
-              workbench_access_press_cn: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -703,21 +688,6 @@ display:
               edit_own_editor: '0'
               edit_menu: '0'
               administrator: '0'
-              workbench_base: '0'
-              workbench_author: '0'
-              workbench_moderator: '0'
-              workbench_publisher: '0'
-              workbench_access_supplier_en: '0'
-              workbench_access_supplier_cn: '0'
-              workbench_access_german: '0'
-              workbench_access_chinese: '0'
-              workbench_access_english: '0'
-              workbench_access_page_de: '0'
-              workbench_access_page_en: '0'
-              workbench_access_page_cn: '0'
-              workbench_access_press_de: '0'
-              workbench_access_press_en: '0'
-              workbench_access_press_cn: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -741,7 +711,7 @@ display:
       access:
         type: perm
         options:
-          perm: 'create code_of_conduct content'
+          perm: 'create article content'
       menu:
         type: none
         description: ''
