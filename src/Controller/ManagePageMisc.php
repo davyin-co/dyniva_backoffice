@@ -12,16 +12,14 @@ class ManagePageMisc extends ControllerBase {
   public function DashboardOverview() {
     $build = [];
     $entity_type = 'page_variant';
-    //$storage = \Drupal::entityTypeManager()->getStorage($entity_type);
+
+
+    $storage = \Drupal::entityTypeManager()->getStorage($entity_type);
     //$all = \Drupal::entityTypeManager()->getStorage($entity_type)->loadMultiple();
-    //dpm($all);
-    $entities = $this->entityTypeManager->getStorage($entity_type)
-      ->loadByProperties(['id' => 'total_control_dashboard-http_status_code-0']);
+    $entities = $storage->loadByProperties(['id' => 'total_control_dashboard-http_status_code-0']);
 
     if ($entity = reset($entities)) {
-      $build = \Drupal::entityTypeManager()
-        ->getViewBuilder($entity_type)
-        ->view($entity);
+      $build = \Drupal::entityTypeManager()->getViewBuilder($entity_type)->view($entity);
     }
 
     return $build;

@@ -5,6 +5,7 @@ core_version_requirement: ^8.8 || ^9
 dependencies:
   - media_library
   - theme_switcher
+  - menu_trail_by_path
   - toolbar_menu
   - total_control
   - views_add_button
