@@ -18,7 +18,10 @@
         "patches": {
              "drupal/page_manager": {
                  "page_variant entity type does not exist when installing or enabling": "https://www.drupal.org/files/issues/2876880-page-varient-cache-2.patch"
-             }
+             },
+            "drupal/menu_trail_by_path": {
+                "add context module support": "https://raw.githubusercontent.com/davyin-co/dyniva/1.1.x/patches/add_context_module_support.patch"
+            }
         }
     }
 }
