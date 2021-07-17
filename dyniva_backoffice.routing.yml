@@ -16,7 +16,7 @@ manage.content:
 manage.dashboard:
   path: '/manage/dashboard'
   defaults:
-    _controller: '\Drupal\dyniva_backoffice\Controller\ManageDashboard::Overview'
+    _controller: '\Drupal\dyniva_backoffice\Controller\ManagePageMisc::DashboardOverview'
     _title: 'Media'
   requirements:
     _permission: 'access manage pages'
@@ -31,16 +31,16 @@ manage.media:
 manage.media_grid:
   path: '/manage/media-grid'
   defaults:
-    _controller: '\Drupal\dyniva_backoffice\Controller\ManageMedia::Grid'
+    _controller: '\Drupal\dyniva_backoffice\Controller\ManagePageMisc::MediaGrid'
     _title: 'Media'
   requirements:
     _permission: 'access manage pages'
 
-manage.menu:
-  path: '/manage/menu'
+manage.taxonomy:
+  path: '/manage/taxonomy'
   defaults:
     _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
-    _title: 'Menu'
+    _title: 'Taxonomy Vocabulary'
   requirements:
     _permission: 'access manage pages'
 

@@ -25,7 +25,7 @@ manage.dashboard:
   title: Dashboard
   description: 'Content Dashboard'
   route_name: manage.dashboard
-  weight: -100
+  weight: 0
   parent: manage.admin
   menu_name: manage
 
@@ -35,8 +35,28 @@ manage.admin_content:
   description: 'Find and manage content.'
   route_name: manage.content
   expanded: true
-  weight: -90
+  weight: 10
   parent: manage.admin
+  menu_name: manage
+
+
+## Media
+manage.media:
+  title: Media
+  description: 'Media List.'
+  route_name: manage.media_grid
+  weight: 20
+  parent: manage.admin
+  menu_name: manage
+
+## Taxonomy
+manage.taxonomy:
+  title: Taxonomy
+  description: 'Taxonomy Vocabulary List.'
+  route_name: manage.taxonomy
+  parent: manage.admin
+  expanded: true
+  weight: 30
   menu_name: manage
 
 ## user
@@ -44,16 +64,7 @@ manage.user:
   title: Users
   description: 'User List.'
   route_name: view.manage_users.list
-  weight: -80
-  parent: manage.admin
-  menu_name: manage
-
-## Media
-manage.media:
-  title: Media
-  description: 'Media List.'
-  route_name: manage.media_grid
-  weight: -70
+  weight: 40
   parent: manage.admin
   menu_name: manage
 
@@ -63,28 +74,28 @@ manage.site:
   description: 'Config.'
   route_name: manage.site
   expanded: true
-  weight: -60
+  weight: 50
   parent: manage.admin
   menu_name: manage
 manage.site_information:
   title: Site Config
   description: 'Site Config.'
   route_name: manage.site_information
-  weight: -60
+  weight: 51
   parent: manage.site
   menu_name: manage
 manage.site_translation:
   title: Translate
   description: 'Translate.'
   route_name: manage.site_translation
-  weight: -60
+  weight: 52
   parent: manage.site
   menu_name: manage
 manage.menu_main:
   title: Main Menu
   description: 'Main Menu Config.'
   route_name: entity.menu.edit_form
-  weight: -60
+  weight: 53
   parent: manage.site
   menu_name: manage
   route_parameters:
@@ -93,7 +104,7 @@ manage.menu_manage:
   title: Manage Menu
   description: 'Manage Menu Config.'
   route_name: entity.menu.edit_form
-  weight: -60
+  weight: 54
   parent: manage.site
   menu_name: manage
   route_parameters:

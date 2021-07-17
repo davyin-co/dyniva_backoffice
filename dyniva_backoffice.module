@@ -2,19 +2,50 @@
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\views\Entity\View;
-
+use Drupal\taxonomy\Entity\Vocabulary;
 /**
  * Implements hook_preinstall().
  */
 function dyniva_backoffice_preinstall($module) {
   \Drupal::service('theme_installer')->install(['dyniva_admin']);
 }
-
+function dyniva_backoffice_menu_local_actions_alter(&$local_actions) {
+  $local_actions["manage.entity.taxonomy_term.add_form"] = [
+    "id" => "entity.taxonomy_term.add_form",
+    "title" => new TranslatableMarkup('Add Term'),
+    "route_name" => "manage.entity.taxonomy_term.add_form",
+    "route_parameters" => [],
+    "options" => [],
+    "appears_on" => [
+      'manage.entity.taxonomy_vocabulary.overview_form'
+    ],
+    'weight' => 0,
+    "class" => "Drupal\Core\Menu\LocalActionDefault",
+    "provider" => "dyniva_backoffice",
+  ];
+}
 /**
  * Implements hook_menu_links_discovered_alter().
  */
 function dyniva_backoffice_menu_links_discovered_alter(&$links) {
-  // Conditionally add an additional link with a title that's not translated.
+  // taxonomy manage
+  if (\Drupal::moduleHandler()->moduleExists('taxonomy')) {
+    $vocabulary_list = Vocabulary::loadMultiple();
+    /** @var Vocabulary $vocabulary */
+    foreach ($vocabulary_list as $vocabulary) {
+      $links['manage.taxonomy.' . $vocabulary->id()] = [
+        'title' => new TranslatableMarkup($vocabulary->label()),
+        'description' => new TranslatableMarkup($vocabulary->getDescription()),
+        'route_name' => 'manage.entity.taxonomy_vocabulary.overview_form',
+        'parent' => 'manage.taxonomy',
+        'menu_name' => 'manage',
+        'route_parameters' => [
+          'taxonomy_vocabulary' => $vocabulary->id(),
+        ]
+      ];
+    }
+  }
+  // Landing pae manage
   if (\Drupal::moduleHandler()->moduleExists('dyniva_layout_builder')) {
     $links['manage.content.landing_page'] = [
       'title' => new TranslatableMarkup('Landing Pages'),
