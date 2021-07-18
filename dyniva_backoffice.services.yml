@@ -2,4 +2,4 @@ services:
   dyniva_backoffice.route_subscriber:
     class: Drupal\dyniva_backoffice\Routing\RouteSubscriber
     tags:
-      - { name: event_subscriber }
+      - { name: event_subscriber, priority: 200 }
