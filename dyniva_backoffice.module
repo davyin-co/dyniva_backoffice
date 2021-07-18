@@ -2,13 +2,19 @@
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\views\Entity\View;
+use Drupal\views\Views;
 use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Url;
+
 /**
  * Implements hook_preinstall().
  */
 function dyniva_backoffice_preinstall($module) {
   \Drupal::service('theme_installer')->install(['dyniva_admin']);
 }
+
 function dyniva_backoffice_menu_local_actions_alter(&$local_actions) {
   $local_actions["manage.entity.taxonomy_term.add_form"] = [
     "id" => "entity.taxonomy_term.add_form",
@@ -17,34 +23,18 @@ function dyniva_backoffice_menu_local_actions_alter(&$local_actions) {
     "route_parameters" => [],
     "options" => [],
     "appears_on" => [
-      'manage.entity.taxonomy_vocabulary.overview_form'
+      'manage.entity.taxonomy_vocabulary.overview_form',
     ],
     'weight' => 0,
     "class" => "Drupal\Core\Menu\LocalActionDefault",
     "provider" => "dyniva_backoffice",
   ];
 }
+
 /**
  * Implements hook_menu_links_discovered_alter().
  */
 function dyniva_backoffice_menu_links_discovered_alter(&$links) {
-  // taxonomy manage
-  if (\Drupal::moduleHandler()->moduleExists('taxonomy')) {
-    $vocabulary_list = Vocabulary::loadMultiple();
-    /** @var Vocabulary $vocabulary */
-    foreach ($vocabulary_list as $vocabulary) {
-      $links['manage.taxonomy.' . $vocabulary->id()] = [
-        'title' => new TranslatableMarkup($vocabulary->label()),
-        'description' => new TranslatableMarkup($vocabulary->getDescription()),
-        'route_name' => 'manage.entity.taxonomy_vocabulary.overview_form',
-        'parent' => 'manage.taxonomy',
-        'menu_name' => 'manage',
-        'route_parameters' => [
-          'taxonomy_vocabulary' => $vocabulary->id(),
-        ]
-      ];
-    }
-  }
   // Landing pae manage
   if (\Drupal::moduleHandler()->moduleExists('dyniva_layout_builder')) {
     $links['manage.content.landing_page'] = [
@@ -53,7 +43,7 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
       'route_name' => 'view.manage_landing_page.list',
       'parent' => 'manage.admin_content',
       'menu_name' => 'manage',
-      'weight' => -100,
+      'weight' => 1,
     ];
   }
   if (\Drupal::moduleHandler()->moduleExists('dyniva_document')) {
@@ -63,7 +53,7 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
       'route_name' => 'view.document_overview.table',
       'parent' => 'manage.admin_content',
       'menu_name' => 'manage',
-      'weight' => -100,
+      'weight' => 100,
     ];
   }
   if (\Drupal::moduleHandler()->moduleExists('dyniva_job')) {
@@ -73,7 +63,7 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
       'route_name' => 'view.jobs.page_1',
       'parent' => 'manage.admin_content',
       'menu_name' => 'manage',
-      'weight' => -100,
+      'weight' => 100,
     ];
   }
   if (\Drupal::moduleHandler()->moduleExists('dyniva_event')) {
@@ -83,7 +73,7 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
       'route_name' => 'view.event.page_1',
       'parent' => 'manage.admin_content',
       'menu_name' => 'manage',
-      'weight' => -100,
+      'weight' => 100,
     ];
   }
   if (\Drupal::moduleHandler()->moduleExists('dyniva_staff')) {
@@ -93,19 +83,10 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
       'route_name' => 'view.staff.page_1',
       'parent' => 'manage.admin_content',
       'menu_name' => 'manage',
-      'weight' => -100,
+      'weight' => 100,
     ];
   }
-  if (\Drupal::moduleHandler()->moduleExists('admin_audit_trail')) {
-    $links['manage.admin_audit_trail'] = [
-      'title' => new TranslatableMarkup('Audit Logs'),
-      'description' => new TranslatableMarkup('Audit Trail Manage'),
-      'route_name' => 'admin_audit_trail.report_form',
-      'parent' => 'manage.admin',
-      'menu_name' => 'manage',
-      'weight' => -71,
-    ];
-  }
+
   //Get content from manage_contents views.
   /** @var View $view */
   if ($view = View::load('manage_content')) {
@@ -134,4 +115,111 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
       }
     }
   }
+  // taxonomy manage
+  if (\Drupal::moduleHandler()->moduleExists('taxonomy')) {
+    $vocabulary_list = Vocabulary::loadMultiple();
+    /** @var Vocabulary $vocabulary */
+    foreach ($vocabulary_list as $vocabulary) {
+      $links['manage.taxonomy.' . $vocabulary->id()] = [
+        'title' => new TranslatableMarkup($vocabulary->label()),
+        'description' => new TranslatableMarkup($vocabulary->getDescription()),
+        'route_name' => 'manage.entity.taxonomy_vocabulary.overview_form',
+        'parent' => 'manage.taxonomy',
+        'menu_name' => 'manage',
+        'route_parameters' => [
+          'taxonomy_vocabulary' => $vocabulary->id(),
+        ],
+      ];
+    }
+  }
+
+  if (\Drupal::moduleHandler()->moduleExists('admin_audit_trail')) {
+    $links['manage.admin_audit_trail'] = [
+      'title' => new TranslatableMarkup('Audit Logs'),
+      'description' => new TranslatableMarkup('Audit Trail Manage'),
+      'route_name' => 'admin_audit_trail.report_form',
+      'parent' => 'manage.admin',
+      'menu_name' => 'manage',
+      'weight' => 50,
+    ];
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ * form:/manage/media-grid
+ * change the media_library form provided by core the form action.
+ */
+function dyniva_backoffice_form_views_form_media_library_page_alter(&$form, FormStateInterface $form_state) {
+  $current_route = \Drupal::service('current_route_match');
+  $route = $current_route->getRouteObject();
+  /** @var \Symfony\Component\Routing\Route $route */
+  $path = $route->getPath();
+  $form['#action'] = $path;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function dyniva_backoffice_form_taxonomy_overview_terms_alter(&$form, FormStateInterface $form_state) {
+  unset($form['terms']['#empty']);
+  unset($form['actions']['reset_alphabetical']);
+  foreach (Element::children($form['terms']) as $key) {
+    foreach ($form['terms'][$key]['operations']['#links'] as $op_key => $url) {
+      if (in_array($op_key, ['edit', 'delete'])) {
+        /** @var \Drupal\Core\Url $url */
+        $url = $form['terms'][$key]['operations']['#links'][$op_key]['url'];
+        $manage_url = Url::fromRoute('manage.' . $url->getRouteName(), $url->getRouteParameters(), $url->getOptions());
+        $form['terms'][$key]['operations']['#links'][$op_key]['url'] = $manage_url;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook__entity_operation_alter().
+ */
+function dyniva_backoffice_entity_operation_alter(array &$operations, \Drupal\Core\Entity\EntityInterface $entity) {
+  /** @var \Drupal\Core\Routing\RouteMatch $current_route */
+  $current_route = \Drupal::service('current_route_match');
+  $current_route_name = $current_route->getRouteName();
+  $route = $current_route->getRouteObject();
+  /** @var \Symfony\Component\Routing\Route $route */
+  $path = $route->getPath();
+  // 匹配当前页面是views的而且url以/manage开头的
+  if (str_starts_with($current_route_name, 'view.') && str_starts_with($path, '/manage')) {
+    if ($entity->getEntityTypeId() == 'node') {
+      // for landing page, put the layout on top.
+      if ($entity->bundle() == 'landing_page' && array_key_exists('layout', $operations)) {
+        $operations['layout']['weight'] = -100;
+      }
+
+      /** @var Url $edit_url */
+      $edit_url = $operations['edit']['url'];
+      $new_edit_url = Url::fromRoute('manage.entity.node.edit_form', $edit_url->getRouteParameters(), $edit_url->getOptions());
+      $operations['edit']['url'] = $new_edit_url;
+
+      /** @var Url $edit_url */
+      $delete_url = $operations['delete']['url'];
+      $new_delete_url = Url::fromRoute('manage.entity.node.delete_form', $delete_url->getRouteParameters(), $delete_url->getOptions());
+      $operations['delete']['url'] = $new_delete_url;
+    }
+
+    // User
+    if ($entity->getEntityTypeId() == 'user') {
+      /** @var Url $edit_url */
+      $edit_url = $operations['edit']['url'];
+      $new_edit_url = Url::fromRoute('manage.entity.user.edit_form', $edit_url->getRouteParameters(), $edit_url->getOptions());
+      $operations['edit']['url'] = $new_edit_url;
+    }
+  }
+}
+
+/**
+ * Implements hook_views_add_button_info_alter().
+ */
+function dyniva_backoffice_views_add_button_info_alter(&$info) {
+  $info['views_add_button_node'] = $info['views_add_button_node_manage'];
+  $info['views_add_button_user'] = $info['views_add_button_user_manage'];
+  $info['views_add_taxonomy_node'] = $info['views_add_button_taxonomy_manage'];
 }
