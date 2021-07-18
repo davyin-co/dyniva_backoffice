@@ -205,15 +205,20 @@ function dyniva_backoffice_entity_operation_alter(array &$operations, \Drupal\Co
         $operations['layout']['weight'] = -100;
       }
 
-      /** @var Url $edit_url */
-      $edit_url = $operations['edit']['url'];
-      $new_edit_url = Url::fromRoute('manage.entity.node.edit_form', $edit_url->getRouteParameters(), $edit_url->getOptions());
-      $operations['edit']['url'] = $new_edit_url;
 
-      /** @var Url $edit_url */
-      $delete_url = $operations['delete']['url'];
-      $new_delete_url = Url::fromRoute('manage.entity.node.delete_form', $delete_url->getRouteParameters(), $delete_url->getOptions());
-      $operations['delete']['url'] = $new_delete_url;
+      if (array_key_exists('edit', $operations)) {
+        /** @var Url $edit_url */
+        $edit_url = $operations['edit']['url'];
+        $new_edit_url = Url::fromRoute('manage.entity.node.edit_form', $edit_url->getRouteParameters(), $edit_url->getOptions());
+        $operations['edit']['url'] = $new_edit_url;
+      }
+
+      if (array_key_exists('delete', $operations)) {
+        /** @var Url $edit_url */
+        $delete_url = $operations['delete']['url'];
+        $new_delete_url = Url::fromRoute('manage.entity.node.delete_form', $delete_url->getRouteParameters(), $delete_url->getOptions());
+        $operations['delete']['url'] = $new_delete_url;
+      }
 
       if (array_key_exists('translate', $operations)) {
         /** @var Url $edit_url */
@@ -242,7 +247,7 @@ function dyniva_backoffice_preprocess_table(&$vars) {
   if (!page_is_manage()) {
     return;
   }
-  
+
   /** @var \Drupal\Core\Routing\RouteMatch $current_route */
   $current_route = \Drupal::service('current_route_match');
   $current_route_name = $current_route->getRouteName();
