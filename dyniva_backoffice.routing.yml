@@ -12,14 +12,14 @@ manage.content:
     _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
     _title: 'Content'
   requirements:
-    _permission: 'access manage pages'
+    _permission: 'access manage content'
 manage.dashboard:
   path: '/manage/dashboard'
   defaults:
     _controller: '\Drupal\dyniva_backoffice\Controller\ManagePageMisc::DashboardOverview'
     _title: 'Media'
   requirements:
-    _permission: 'access manage pages'
+    _permission: 'access manage dashboard'
 
 manage.media:
   path: '/manage/media'
@@ -27,14 +27,14 @@ manage.media:
     _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
     _title: 'Media'
   requirements:
-    _permission: 'access manage pages'
+    _permission: 'access manage media'
 manage.media_grid:
   path: '/manage/media-grid'
   defaults:
     _controller: '\Drupal\dyniva_backoffice\Controller\ManagePageMisc::MediaGrid'
     _title: 'Media'
   requirements:
-    _permission: 'access manage pages'
+    _permission: 'access manage media'
 
 manage.taxonomy:
   path: '/manage/taxonomy'
@@ -42,7 +42,7 @@ manage.taxonomy:
     _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
     _title: 'Taxonomy Vocabulary'
   requirements:
-    _permission: 'access manage pages'
+    _permission: 'access manage taxonomy'
 
 manage.site:
   path: '/manage/site'
@@ -50,7 +50,7 @@ manage.site:
     _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
     _title: 'Site'
   requirements:
-    _permission: 'access manage pages'
+    _permission: 'access manage site'
 manage.site_information:
   path: '/manage/site/information'
   defaults:
