@@ -135,7 +135,7 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
   // menu manage
   if (\Drupal::moduleHandler()->moduleExists('menu_link_content')) {
     $menu_list = Menu::loadMultiple();
-    $ignore_menus = ['account', 'admin', 'tools'];
+    $ignore_menus = ['account', 'admin', 'tools', 'devel'];
     /** @var Menu $menu */
     foreach ($menu_list as $menu) {
       if (in_array($menu->id(), $ignore_menus)) {
