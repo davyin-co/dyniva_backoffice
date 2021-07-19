@@ -2,11 +2,11 @@
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\views\Entity\View;
-use Drupal\views\Views;
-use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
+use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\system\Entity\Menu;
 
 /**
  * Implements hook_preinstall().
@@ -132,7 +132,29 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
       ];
     }
   }
+  // menu manage
+  if (\Drupal::moduleHandler()->moduleExists('menu_link_content')) {
+    $menu_list = Menu::loadMultiple();
+    $ignore_menus = ['account', 'admin', 'tools'];
+    /** @var Menu $menu */
+    foreach ($menu_list as $menu) {
+      if (in_array($menu->id(), $ignore_menus)) {
+        continue;
+      }
+      $links['manage.menu.' . $menu->id()] = [
+        'title' => new TranslatableMarkup('[Menu] ' . $menu->label()),
+        'description' => new TranslatableMarkup($menu->getDescription()),
+        'route_name' => 'manage.entity.menu.edit_form',
+        'parent' => 'manage.site',
+        'menu_name' => 'manage',
+        'route_parameters' => [
+          'menu' => $menu->id(),
+        ],
+      ];
+    }
+  }
 
+  ## admin_audit_trail module
   if (\Drupal::moduleHandler()->moduleExists('admin_audit_trail')) {
     $links['manage.admin_audit_trail'] = [
       'title' => new TranslatableMarkup('Audit Logs'),
@@ -172,6 +194,33 @@ function dyniva_backoffice_form_views_form_media_library_page_alter(&$form, Form
 }
 
 /**
+ * Implements hook_form_alter().
+ */
+//function dyniva_backoffice_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+//  dpm($form_id);
+//}
+/**
+ * Implements hook_form_FORM_ID_alter().
+ * path: /manage/menu/main, alter the menu links overview page.
+ */
+function dyniva_backoffice_form_menu_edit_form_alter(&$form, FormStateInterface $form_state) {
+  if (!page_is_manage()) {
+    return;
+  }
+
+  foreach (Element::children($form['links']['links']) as $key) {
+    foreach ($form['links']['links'][$key]['operations']['#links'] as $op_key => $url) {
+      if (in_array($op_key, ['edit', 'delete', 'translate'])) {
+        /** @var \Drupal\Core\Url $url */
+        $url = $form['links']['links'][$key]['operations']['#links'][$op_key]['url'];
+        $manage_url = Url::fromRoute('manage.' . $url->getRouteName(), $url->getRouteParameters(), $url->getOptions());
+        $form['links']['links'][$key]['operations']['#links'][$op_key]['url'] = $manage_url;
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function dyniva_backoffice_form_taxonomy_overview_terms_alter(&$form, FormStateInterface $form_state) {
@@ -204,7 +253,6 @@ function dyniva_backoffice_entity_operation_alter(array &$operations, \Drupal\Co
       if ($entity->bundle() == 'landing_page' && array_key_exists('layout', $operations)) {
         $operations['layout']['weight'] = -100;
       }
-
 
       if (array_key_exists('edit', $operations)) {
         /** @var Url $edit_url */
@@ -251,6 +299,7 @@ function dyniva_backoffice_preprocess_table(&$vars) {
   /** @var \Drupal\Core\Routing\RouteMatch $current_route */
   $current_route = \Drupal::service('current_route_match');
   $current_route_name = $current_route->getRouteName();
+  //Looks this code will process all content translation page.
   if (!str_ends_with($current_route_name, '.content_translation_overview')) {
     return;
   }

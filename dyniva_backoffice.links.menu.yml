@@ -91,21 +91,4 @@ manage.site_translation:
   weight: 52
   parent: manage.site
   menu_name: manage
-manage.menu_main:
-  title: Main Menu
-  description: 'Main Menu Config.'
-  route_name: entity.menu.edit_form
-  weight: 53
-  parent: manage.site
-  menu_name: manage
-  route_parameters:
-    menu: main
-manage.menu_manage:
-  title: Manage Menu
-  description: 'Manage Menu Config.'
-  route_name: entity.menu.edit_form
-  weight: 54
-  parent: manage.site
-  menu_name: manage
-  route_parameters:
-    menu: manage
+

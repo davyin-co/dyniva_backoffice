@@ -46,6 +46,18 @@ class RouteSubscriber extends RouteSubscriberBase {
       'entity.taxonomy_term.content_translation_add' => '/manage/taxonomy/term/{taxonomy_term}/translations/add/{source}/{target}',
       'entity.taxonomy_term.content_translation_edit' => '/manage/taxonomy/term/{taxonomy_term}/translations/edit/{language}',
       'entity.taxonomy_term.content_translation_delete' => '/manage/taxonomy/term/{taxonomy_term}/translations/delete/{language}',
+
+      ## Menu
+      'entity.menu.edit_form' => '/manage/menu/{menu}',
+      'entity.menu.config_translation_overview' => '/manage/menu/{menu}/translate',
+      'entity.menu.add_link_form' => '/manage/menu/{menu}/add',
+      'entity.menu_link_content.canonical' => '/manage/menu/{menu_link_content}/edit',
+      'entity.menu_link_content.edit_form' => '/manage/menu/{menu_link_content}/edit',
+      'entity.menu_link_content.delete_form' => '/manage/menu/{menu_link_content}/delete',
+      'entity.menu_link_content.content_translation_overview' => '/manage/menu/{menu_link_content}/edit/translations',
+      'entity.menu_link_content.content_translation_edit' => '/manage/menu/{menu_link_content}/edit/translations/edit/{language}',
+      'entity.menu_link_content.content_translation_delete' => '/manage/menu/{menu_link_content}/edit/translations/delete/{language}',
+      'entity.menu_link_content.content_translation_add' => '/manage/menu/{menu_link_content}/edit/translations/add/{source}/{target}',
     ];
 
     // Looks $this->routeProvider->all() can't get all routing info, such as node translate.
