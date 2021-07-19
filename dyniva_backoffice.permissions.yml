@@ -1,3 +1,19 @@
 access manage pages:
   title: 'Access Manage Pages'
   description: 'Access Manage Pages by Dyniva Backoffice'
+
+access manage content:
+  title: 'Access Manage Content'
+  description: 'Access Manage Content by Dyniva Backoffice'
+
+access manage dashboard:
+  title: 'Access Manage Dashboard'
+  description: 'Access Manage Dashboard by Dyniva Backoffice'
+
+access manage media:
+  title: 'Access Manage Media'
+  description: 'Access Manage Media by Dyniva Backoffice'
+
+access manage taxonomy:
+  title: 'Access Manage Taxonomy'
+  description: 'Access Manage Taxonomy by Dyniva Backoffice'
