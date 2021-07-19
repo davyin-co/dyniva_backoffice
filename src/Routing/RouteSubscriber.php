@@ -48,6 +48,7 @@ class RouteSubscriber extends RouteSubscriberBase {
       'entity.taxonomy_term.content_translation_delete' => '/manage/taxonomy/term/{taxonomy_term}/translations/delete/{language}',
 
       ## Menu
+      'menu_ui.link_edit' => 'manage/menu/link/{menu_link_plugin}/edit',## for links provide by code, for example views page.
       'entity.menu.edit_form' => '/manage/menu/{menu}',
       'entity.menu.config_translation_overview' => '/manage/menu/{menu}/translate',
       'entity.menu.add_link_form' => '/manage/menu/{menu}/add',
