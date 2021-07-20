@@ -21,15 +21,8 @@ manage.dashboard:
   requirements:
     _permission: 'access manage dashboard'
 
-manage.media:
-  path: '/manage/media'
-  defaults:
-    _controller: '\Drupal\dyniva_backoffice\Controller\ManageMenuController::systemAdminMenuBlockPage'
-    _title: 'Media'
-  requirements:
-    _permission: 'access manage media'
 manage.media_grid:
-  path: '/manage/media-grid'
+  path: '/manage/media'
   defaults:
     _controller: '\Drupal\dyniva_backoffice\Controller\ManagePageMisc::MediaGrid'
     _title: 'Media'

@@ -1,10 +1,10 @@
 dyniva_backoffice.lightning_media.bulk_upload:
-  route_name: lightning_media.bulk_upload
+  route_name: manage.lightning_media.bulk_upload
   title: 'Bulk upload'
   appears_on:
     - manage.media_grid
 dyniva_backoffice.media_library.add:
-  route_name: entity.media.add_page
+  route_name: manage.entity.media.add_page
   title: 'Add media'
   appears_on:
     - manage.media_grid

@@ -7,6 +7,8 @@ use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\system\Entity\Menu;
+use Drupal\views\Views;
+use Drupal\views\ViewExecutable;
 
 /**
  * Implements hook_preinstall().
@@ -16,19 +18,106 @@ function dyniva_backoffice_preinstall($module) {
 }
 
 function dyniva_backoffice_menu_local_actions_alter(&$local_actions) {
-  $local_actions["manage.entity.taxonomy_term.add_form"] = [
+  //manage taxonomy overview page
+  $default = $local_actions['entity.taxonomy_term.add_form'];
+  $term_manage_action = $default;
+  $term_manage_action['id'] = 'manage.entity.taxonomy_term.add_form';
+  $term_manage_action['route_name'] = 'manage.entity.taxonomy_term.add_form';
+  $term_manage_action['appears_on'][0] = 'manage.entity.taxonomy_vocabulary.overview_form';
+  $term_manage_action['provider'] = 'dyniva_backoffice';
+  $local_actions['manage.entity.taxonomy_term.add_form'] = $term_manage_action;
+
+  // manage menu overview page.
+  $default = $local_actions['entity.menu.add_link_form'];
+  $menu_manage_action = $default;
+  $menu_manage_action['id'] = 'manage.entity.menu.add_link_form';
+  $menu_manage_action['route_name'] = 'manage.entity.menu.add_link_form';
+  $menu_manage_action['appears_on'][0] = 'manage.entity.menu.edit_form';
+  $menu_manage_action['provider'] = 'dyniva_backoffice';
+  $local_actions['manage.entity.menu.add_link_form'] = $menu_manage_action;
+
+
+  $views = Views::getAllViews();
+  $default = [
     "id" => "entity.taxonomy_term.add_form",
     "title" => new TranslatableMarkup('Add Term'),
     "route_name" => "manage.entity.taxonomy_term.add_form",
     "route_parameters" => [],
     "options" => [],
     "appears_on" => [
-      'manage.entity.taxonomy_vocabulary.overview_form',
     ],
     'weight' => 0,
     "class" => "Drupal\Core\Menu\LocalActionDefault",
     "provider" => "dyniva_backoffice",
   ];
+  $action_map = [
+    'node' => 'manage.node.add',
+    'user' => 'manage.user.admin_create',
+    'taxonomy' => 'manage.entity.taxonomy_term.add_form',
+  ];
+  /** @var View $view */
+  foreach ($views as $view) {
+    $display_list = $view->get('display');
+    foreach ($display_list as $display) {
+      //For the disabled display, hide it.
+      if (array_key_exists('enabled', $display['display_options']) && $display['display_options']['enabled'] == FALSE) {
+        continue;
+      }
+      if ($display['display_plugin'] == 'page' && array_key_exists('header', $display['display_options']) && str_starts_with($display['display_options']['path'], 'manage/')) {
+        foreach ($display['display_options']['header'] as $action_info) {
+          if ($action_info['plugin_id'] == 'views_add_button_area') {
+            $identifier = sprintf('manage.views.%s.%s.%s', $view->id(), $display['id'], $action_info['id']);
+            $description = $display['display_description'] ?? '';
+            [$entity_type, $entity_bundle] = explode('+', $action_info['type']);
+            if (array_key_exists($entity_type, $action_map)) {
+              $link_text = !empty($action_info['button_text']) ? $action_info['button_text'] : 'Add ' . $entity_bundle;
+              $current = [
+                'id' => $identifier,
+                'title' => new TranslatableMarkup($link_text),
+                'description' => new TranslatableMarkup($description),
+                'route_name' => $action_map[$entity_type],
+                "route_parameters" => [
+                ],
+                "appears_on" => [
+                  sprintf('view.%s.%s', $view->id(), $display['id']),
+                ],
+              ];
+              if ($entity_type == 'node') {
+                $current['route_parameters'] = [
+                  'node_type' => $entity_bundle,
+                ];
+              }
+              if ($entity_type == 'taxonomy_term') {
+                $current['route_parameters'] = [
+                  'taxonomy_vocabulary' => $entity_bundle,
+                ];
+              }
+              $local_actions[$identifier] = array_replace_recursive($default, $current);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_views_pre_view().
+ * remove the views_add_button, as it has been processed as menu actions.
+ */
+function dyniva_backoffice_views_pre_view(ViewExecutable $view, $display_id, array &$args) {
+  $display = $view->getHandler($display_id, 'header', '');
+  /** @var \Drupal\views\Plugin\views\display\Page $display */
+  $display = $view->getDisplay();
+  if ($display->getPluginId() == 'page') {
+    $header_options = $display->getOption('header');
+    foreach ($header_options as $key => $header_option) {
+      //$handler = $view->getHandler($display->display['id'], 'header', $key);
+      if ($header_option['plugin_id'] == 'views_add_button_area') {
+        $view->removeHandler($display_id, 'header', $key);
+      }
+    }
+  }
 }
 
 /**
@@ -172,7 +261,9 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
  */
 function page_is_manage() {
   /** @var \Drupal\Core\Routing\RouteMatch $current_route */
-  $current_path = \Drupal::service('current_route_match')->getRouteObject()->getPath();
+  $current_path = \Drupal::service('current_route_match')
+    ->getRouteObject()
+    ->getPath();
   // 匹配当前页面是views的而且url以/manage开头的
   if (str_starts_with($current_path, '/manage')) {
     return TRUE;
@@ -182,23 +273,30 @@ function page_is_manage() {
 
 /**
  * Implements hook_form_FORM_ID_alter().
- * form:/manage/media-grid
- * change the media_library form provided by core the form action.
+
  */
 function dyniva_backoffice_form_views_form_media_library_page_alter(&$form, FormStateInterface $form_state) {
-  $current_route = \Drupal::service('current_route_match');
-  $route = $current_route->getRouteObject();
-  /** @var \Symfony\Component\Routing\Route $route */
-  $path = $route->getPath();
-  $form['#action'] = $path;
+
 }
 
 /**
  * Implements hook_form_alter().
  */
-//function dyniva_backoffice_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-//  dpm($form_id);
-//}
+function dyniva_backoffice_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // form:/manage/media-grid, manage/media/add/{media_type}
+  // change the media_library form provided by core the form action.
+  $form_ids = ['media_image_add_form', 'views_form_media_library_page'];
+  if (in_array($form_id, $form_ids)) {
+    $path = \Drupal::request()->getRequestUri();
+    $form['#action'] = $path;
+    //array_unshift($form['#submit'],'media_form_redirect_to_manage');
+    //$form['#submit'][] = 'media_form_redirect_to_manage';
+  }
+}
+function media_form_redirect_to_manage(&$form,FormStateInterface $form_state) {
+  $url = Url::fromRoute('manage.media_grid');
+  $form_state->setRedirectUrl($url);
+}
 /**
  * Implements hook_form_FORM_ID_alter().
  * path: /manage/menu/main, alter the menu links overview page.
@@ -283,6 +381,35 @@ function dyniva_backoffice_entity_operation_alter(array &$operations, \Drupal\Co
       $new_edit_url = Url::fromRoute('manage.entity.user.edit_form', $edit_url->getRouteParameters(), $edit_url->getOptions());
       $operations['edit']['url'] = $new_edit_url;
     }
+  }
+}
+
+/**
+ * Implements hook_preprocess_entity_add_list.
+ * Process the manage/media/add page url.
+ */
+function dyniva_backoffice_preprocess_entity_add_list(&$vars) {
+  // double check current page is translate overview page.
+  if (!page_is_manage()) {
+    return;
+  }
+  /** @var \Drupal\Core\Routing\RouteMatch $current_route */
+  $current_route = \Drupal::service('current_route_match');
+  $current_route_name = $current_route->getRouteName();
+  if ($current_route_name != 'manage.entity.media.add_page') {
+    return;
+  }
+  //replace the routing entity.media.add_form with manage.entity.media.add_form, and add destination query params.
+  foreach ($vars['bundles'] as $bundle => $item) {
+    /** @var \Drupal\Core\Link $add_link */
+    $add_link = $item['add_link'];
+    $url = $add_link->getUrl();
+    $origin_route_name = $url->getRouteName();
+    $destination_options['query']['destination'] = Url::fromRoute('manage.media_grid')->toString();
+    $options = $url->getOptions() + $destination_options;
+    $manage_url = Url::fromRoute('manage.' . $origin_route_name, $url->getRouteParameters(), $options);
+    $add_link->setUrl($manage_url);
+    $vars['bundles'][$bundle]['add_link'] = $add_link;
   }
 }
 

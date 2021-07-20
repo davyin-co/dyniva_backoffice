@@ -10,6 +10,7 @@ use Symfony\Component\Routing\RouteCollection;
  * Listens to the dynamic route events.
  */
 class RouteSubscriber extends RouteSubscriberBase {
+
   /**
    * {@inheritdoc}
    */
@@ -48,7 +49,7 @@ class RouteSubscriber extends RouteSubscriberBase {
       'entity.taxonomy_term.content_translation_delete' => '/manage/taxonomy/term/{taxonomy_term}/translations/delete/{language}',
 
       ## Menu
-      'menu_ui.link_edit' => 'manage/menu/link/{menu_link_plugin}/edit',## for links provide by code, for example views page.
+      'menu_ui.link_edit' => 'manage/menu/link/{menu_link_plugin}/edit', ## for links provide by code, for example views page.
       'entity.menu.edit_form' => '/manage/menu/{menu}',
       'entity.menu.config_translation_overview' => '/manage/menu/{menu}/translate',
       'entity.menu.add_link_form' => '/manage/menu/{menu}/add',
@@ -59,6 +60,14 @@ class RouteSubscriber extends RouteSubscriberBase {
       'entity.menu_link_content.content_translation_edit' => '/manage/menu/{menu_link_content}/edit/translations/edit/{language}',
       'entity.menu_link_content.content_translation_delete' => '/manage/menu/{menu_link_content}/edit/translations/delete/{language}',
       'entity.menu_link_content.content_translation_add' => '/manage/menu/{menu_link_content}/edit/translations/add/{source}/{target}',
+
+      ## Media
+      'lightning_media.bulk_upload' => '/manage/media/bulk-upload',
+      'entity.media.add_page' => '/manage/media/add',
+      'entity.media.add_form' => '/manage/media/add/{media_type}',
+      'entity.media.canonical' => '/manage/media/{media}/edit',
+      'entity.media.delete_form' => '/manage/media/{media}/delete',
+      'entity.media.delete_multiple_form' => '/manage/media/delete',
     ];
 
     // Looks $this->routeProvider->all() can't get all routing info, such as node translate.
