@@ -133,6 +133,7 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
       'parent' => 'manage.admin_content',
       'menu_name' => 'manage',
       'weight' => 1,
+      'provider' => 'dyniva_backoffice',
     ];
   }
   if (\Drupal::moduleHandler()->moduleExists('dyniva_document')) {
@@ -143,6 +144,7 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
       'parent' => 'manage.admin_content',
       'menu_name' => 'manage',
       'weight' => 100,
+      'provider' => 'dyniva_backoffice',
     ];
   }
   if (\Drupal::moduleHandler()->moduleExists('dyniva_job')) {
@@ -153,6 +155,7 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
       'parent' => 'manage.admin_content',
       'menu_name' => 'manage',
       'weight' => 100,
+      'provider' => 'dyniva_backoffice',
     ];
   }
   if (\Drupal::moduleHandler()->moduleExists('dyniva_event')) {
@@ -163,6 +166,7 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
       'parent' => 'manage.admin_content',
       'menu_name' => 'manage',
       'weight' => 100,
+      'provider' => 'dyniva_backoffice',
     ];
   }
   if (\Drupal::moduleHandler()->moduleExists('dyniva_staff')) {
@@ -173,6 +177,7 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
       'parent' => 'manage.admin_content',
       'menu_name' => 'manage',
       'weight' => 100,
+      'provider' => 'dyniva_backoffice',
     ];
   }
 
@@ -199,6 +204,7 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
           'description' => new TranslatableMarkup($description),
           'route_name' => 'view.manage_content.' . $display['id'],
           'weight' => -100 + $seq,
+          'provider' => 'dyniva_backoffice',
         ];
         $links[$identifier] = $current + $default;
       }
@@ -218,6 +224,7 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
         'route_parameters' => [
           'taxonomy_vocabulary' => $vocabulary->id(),
         ],
+        'provider' => 'dyniva_backoffice',
       ];
     }
   }
@@ -239,6 +246,7 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
         'route_parameters' => [
           'menu' => $menu->id(),
         ],
+        'provider' => 'dyniva_backoffice',
       ];
     }
   }
@@ -252,6 +260,7 @@ function dyniva_backoffice_menu_links_discovered_alter(&$links) {
       'parent' => 'manage.admin',
       'menu_name' => 'manage',
       'weight' => 50,
+      'provider' => 'dyniva_backoffice',
     ];
   }
 }
